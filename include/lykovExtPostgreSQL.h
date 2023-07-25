@@ -1,8 +1,10 @@
 ﻿// LykovExtPostgreSQL.h : включаемый файл для стандартных системных включаемых файлов
 // или включаемые файлы для конкретного проекта.
 
-#pragma once
+#ifndef __LYKOV_EXT_POSTGRESQL_H__
+#define __LYKOV_EXT_POSTGRESQL_H__
 
-#include <iostream>
+#include <postgres.h>
+#include <fmgr.h>
 
-// TODO: установите здесь ссылки на дополнительные заголовки, требующиеся для программы.
+#endif
