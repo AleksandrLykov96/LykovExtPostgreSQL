@@ -1,7 +1,7 @@
 ﻿# CMakeList.txt: проект CMake для lykovAddInNative; включите исходный код и определения,
 # укажите здесь логику для конкретного проекта.
 #
-cmake_minimum_required (VERSION 3.20)
+cmake_minimum_required (VERSION 3.1)
 cmake_policy(SET CMP0091 NEW)
 
 # Общие параметры
@@ -9,10 +9,10 @@ project (LykovExtPostgreSQL LANGUAGES C DESCRIPTION "Extension for PostgreSQL (L
 add_compile_options("$<$<C_COMPILER_ID:MSVC>:/utf-8>")
 
 set(OUTPUT_DIRECTORY "/pgdisk/for_compile/main/lib")
-
-set(LYKOV_ADD_FLAGS "-lpthread -fno-exceptions -shared -Wall -fPIC -lpq -O3 ")
 set(POSTGRESQL_LIB_DIRECTORY "/pgdisk/for_compile/main/lib/")
 set(POSTGRESQL_INCLUDE_DIRECTORY "/pgdisk/for_compile/main/include/")
+
+set(LYKOV_ADD_FLAGS "-lpthread -fno-exceptions -shared -Wall -fPIC -lpq -O3 ")
 
 # Базовые параметры
 set(VCPKG_LIBRARY_LINKAGE static)

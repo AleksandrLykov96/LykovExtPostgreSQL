@@ -70,7 +70,7 @@ PG_FUNCTION_INFO_V1(mcharDDToBytea);
 Datum convertIntToBytea(int64, unsigned short);
 Datum convertIntVersionToText(int64);
 Datum convertVersionToBigint(const char*, size_t);
-Datum convertCharToByteaDD(const char*, size_t);
+Datum convertCharToByteaDD(char*, size_t);
 Datum convertValueStorageToText(const char*, size_t);
 Datum convertDDToTextWithEncoding(Datum);
 

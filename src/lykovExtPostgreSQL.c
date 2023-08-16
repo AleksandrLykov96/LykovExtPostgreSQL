@@ -228,7 +228,7 @@ Datum textUIDToRref(PG_FUNCTION_ARGS) {
 
 Datum textDDToBytea(PG_FUNCTION_ARGS) {
     text* input;
-    const char* forDecode = "";
+    char* forDecode = "";
     size_t srcSize = 0;
 
 	if (!PG_ARGISNULL(0)) {
@@ -254,7 +254,7 @@ Datum mvarcharVersionToInteger(PG_FUNCTION_ARGS) {
     
     input         = PG_GETARG_TEXT_PP(0);
     size          = VARSIZE_ANY_EXHDR(input) / sizeof(mvarchar);
-    convertedChar = gl_MvarcharToChar(VARDATA_ANY(input), size);
+    convertedChar = gl_MvarcharToChar((mvarchar*) VARDATA_ANY(input), size);
     result        = convertVersionToBigint(convertedChar, size);
 
     pfree(convertedChar);
@@ -300,16 +300,21 @@ Datum mvarcharUIDToRref(PG_FUNCTION_ARGS) {
 
 Datum mvarcharDDToBytea(PG_FUNCTION_ARGS) {
     text* input;
-    const char* forDecode = "";
+    Datum result;
+    char* forDecode = "";
     size_t srcSize = 0;
 
     if (!PG_ARGISNULL(0)) {
         input     = PG_GETARG_TEXT_PP(0);
         srcSize   = VARSIZE_ANY_EXHDR(input) / sizeof(mvarchar);
-        forDecode = gl_MvarcharToChar(VARDATA_ANY(input), srcSize);
+        forDecode = gl_MvarcharToChar((mvarchar*)VARDATA_ANY(input), srcSize);
     }
 
-    return convertCharToByteaDD(forDecode, srcSize);
+    result = convertCharToByteaDD(forDecode, srcSize);
+    if (srcSize > 0)
+        pfree(forDecode);
+
+    return result;
 }
 // --------------- MVARCHAR ---------------
 
@@ -326,7 +331,7 @@ Datum mcharVersionToInteger(PG_FUNCTION_ARGS) {
 
     input = PG_GETARG_TEXT_PP(0);
     size = VARSIZE_ANY_EXHDR(input) / sizeof(mvarchar) - LYKOV_SIZE_OF_MCHAR_INFO;
-    convertedChar = gl_McharToChar(VARDATA_ANY(input), size);
+    convertedChar = gl_McharToChar((mvarchar*)VARDATA_ANY(input), size);
     result = convertVersionToBigint(convertedChar, size);
 
     pfree(convertedChar);
@@ -343,7 +348,6 @@ Datum mcharUIDToRref(PG_FUNCTION_ARGS) {
         PG_RETURN_BYTEA_P(result);
 
     data = PG_GETARG_TEXT_PP(0);
-    const int tmp = VARSIZE_ANY_EXHDR(data);
     if (VARSIZE_ANY_EXHDR(data) / sizeof(mvarchar) - LYKOV_SIZE_OF_MCHAR_INFO != UID_SIZE)
         PG_RETURN_BYTEA_P(result);
 
@@ -373,16 +377,21 @@ Datum mcharUIDToRref(PG_FUNCTION_ARGS) {
 
 Datum mcharDDToBytea(PG_FUNCTION_ARGS) {
     text* input;
-    const char* forDecode = "";
+    Datum result;
+    char* forDecode = "";
     size_t srcSize = 0;
 
     if (!PG_ARGISNULL(0)) {
         input = PG_GETARG_TEXT_PP(0);
         srcSize = VARSIZE_ANY_EXHDR(input) / sizeof(mvarchar) - LYKOV_SIZE_OF_MCHAR_INFO;
-        forDecode = gl_McharToChar(VARDATA_ANY(input), srcSize);
+        forDecode = gl_McharToChar((mvarchar*)VARDATA_ANY(input), srcSize);
     }
 
-    return convertCharToByteaDD(forDecode, srcSize);
+    result = convertCharToByteaDD(forDecode, srcSize);
+    if (srcSize > 0)
+        pfree(forDecode);
+
+    return result;
 }
 // --------------- MCHAR ---------------
 
@@ -422,7 +431,7 @@ Datum convertVersionToBigint(const char* input, const size_t size) {
     PG_RETURN_INT64(result);
 }
 
-Datum convertCharToByteaDD(const char* input, size_t srcSize) {
+Datum convertCharToByteaDD(char* input, size_t srcSize) {
     char *resultDecode;
     bytea* result;
     size_t dstSize = 0;
