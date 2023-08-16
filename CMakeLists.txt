@@ -8,9 +8,9 @@ cmake_policy(SET CMP0091 NEW)
 project (LykovExtPostgreSQL LANGUAGES C DESCRIPTION "Extension for PostgreSQL (Lykov's edition, only *nix)")
 add_compile_options("$<$<C_COMPILER_ID:MSVC>:/utf-8>")
 
-set(OUTPUT_DIRECTORY "/pgdisk/for_compile/main/lib")
-set(POSTGRESQL_LIB_DIRECTORY "/pgdisk/for_compile/main/lib/")
-set(POSTGRESQL_INCLUDE_DIRECTORY "/pgdisk/for_compile/main/include/")
+set(OUTPUT_DIRECTORY "/pgdisk/pgpro/main/lib")
+set(POSTGRESQL_LIB_DIRECTORY "/pgdisk/pgpro/main/lib/")
+set(POSTGRESQL_INCLUDE_DIRECTORY "/pgdisk/pgpro/main/include/")
 
 set(LYKOV_ADD_FLAGS "-lpthread -fno-exceptions -shared -Wall -fPIC -lpq -O3 ")
 
