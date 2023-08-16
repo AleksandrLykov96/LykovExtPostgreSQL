@@ -1,4 +1,0 @@
-LIBRARY    ".DLL"
-
-EXPORTS
-main

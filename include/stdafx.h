@@ -7,8 +7,11 @@
 
 #define NDEBUG
 
-#ifndef __linux__
-	#include <WinSock2.h>
-#endif //__linux__
+#include <pg_config.h>
 
-#endif //__STDAFX_H__
+#undef HAVE_LONG_INT_64
+#define HAVE_LONG_LONG_INT_64 1
+
+#include <postgres.h>
+
+#endif //__STDAFX_HPP__
