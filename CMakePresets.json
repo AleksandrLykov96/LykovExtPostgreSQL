@@ -42,7 +42,7 @@
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release",
         "VCPKG_BUILD_TYPE": "Release",
-        "TypeCompile": "lin"
+        "AddFlags": "-lpthread -fno-exceptions -shared -fPIC -lpq -g -s -Wall -O3 -DNDEBUG "
       }
     },
     {
@@ -53,7 +53,7 @@
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
         "VCPKG_BUILD_TYPE": "Debug",
-        "TypeCompile": "lin-deb"
+        "AddFlags": "-lpthread -fno-exceptions -shared -fPIC -lpq "
       }
     }
   ]

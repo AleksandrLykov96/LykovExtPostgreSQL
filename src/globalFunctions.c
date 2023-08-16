@@ -125,7 +125,12 @@ unsigned long gl_ConvertHexToNumeric(const char* src, const size_t srcSize) {
 char* gl_EncodeBase64FromText(const char* input, const size_t srcSize, size_t* sizeResult) {
 	const size_t dstSize = pg_b64_enc_len(srcSize);
     char* result = palloc0(dstSize + 1);
+
+#if PG_VERSION_NUM > 130000
     *sizeResult = pg_b64_encode(input, srcSize, result, dstSize);
+#else
+    *sizeResult = pg_b64_encode(input, srcSize, result);
+#endif
 
 	return result;
 }
@@ -133,7 +138,12 @@ char* gl_EncodeBase64FromText(const char* input, const size_t srcSize, size_t* s
 char* gl_DecodeBase64FromText(const char* input, const size_t srcSize, size_t* sizeResult) {
     const size_t dstSize = pg_b64_dec_len(srcSize);
     char* result = palloc0(dstSize + 1);
+
+#if PG_VERSION_NUM > 130000
     *sizeResult = pg_b64_decode(input, srcSize, result, dstSize);
+#else
+    *sizeResult = pg_b64_decode(input, srcSize, result);
+#endif
 
     return result;
 }

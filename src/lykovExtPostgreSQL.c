@@ -441,7 +441,12 @@ Datum convertCharToByteaDD(char* input, size_t srcSize) {
     dstSize = pg_b64_dec_len(srcSize);
 
     resultDecode = palloc0(dstSize);
+
+#if PG_VERSION_NUM > 130000
     resultSize = pg_b64_decode(input, srcSize, resultDecode, dstSize);
+#else
+    resultSize = pg_b64_decode(input, srcSize, resultDecode);
+#endif
 
     result = palloc0(resultSize + 1 + VARHDRSZ);
     strncpy(VARDATA(result), resultDecode, resultSize + 1);
@@ -472,7 +477,12 @@ Datum convertValueStorageToText(const char* encoded, const size_t size) {
 	srcLen      -= gl_RemoveCharactersFromChar(forDecode, " \t\n\r");
     resLen       = pg_b64_dec_len(srcLen);
 	resultDecode = palloc0(resLen);
-    decoded      = pg_b64_decode(forDecode, srcLen, resultDecode, resLen);
+
+#if PG_VERSION_NUM > 130000
+    decoded = pg_b64_decode(forDecode, srcLen, resultDecode, resLen);
+#else
+    decoded = pg_b64_decode(forDecode, srcLen, resultDecode);
+#endif
 
     if (decoded != -1) {
 	    forCopy = gl_Concatenate("{\"", resultDecode, 2, decoded);
