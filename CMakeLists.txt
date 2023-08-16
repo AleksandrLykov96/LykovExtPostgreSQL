@@ -10,8 +10,7 @@ add_compile_options("$<$<C_COMPILER_ID:MSVC>:/utf-8>")
 
 set(OUTPUT_DIRECTORY "/pgdisk/for_compile/main/lib")
 
-# -O3
-set(LYKOV_ADD_FLAGS "-lpthread -fno-exceptions -shared -Wall -fPIC -lpq ")
+set(LYKOV_ADD_FLAGS "-lpthread -fno-exceptions -shared -Wall -fPIC -lpq -O3 ")
 set(POSTGRESQL_LIB_DIRECTORY "/pgdisk/for_compile/main/lib/")
 set(POSTGRESQL_INCLUDE_DIRECTORY "/pgdisk/for_compile/main/include/")
 
